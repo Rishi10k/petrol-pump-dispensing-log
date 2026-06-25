@@ -1,0 +1,19 @@
+﻿# .NET
+**/bin/
+**/obj/
+**/.vs/
+*.user
+*.suo
+
+# Angular / Node
+**/node_modules/
+**/dist/
+**/.angular/cache/
+
+# Uploaded files (don't commit user-submitted payment proofs)
+**/wwwroot/uploads/*
+!**/wwwroot/uploads/.gitkeep
+
+# OS/editor junk
+.DS_Store
+*.swp
