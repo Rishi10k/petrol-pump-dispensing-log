@@ -83,6 +83,7 @@ namespace PetrolPump.Api.Controllers
         }
 
         // GET api/dispensing/proof/filename.pdf
+        [AllowAnonymous]
         [HttpGet("proof/{fileName}")]
         public IActionResult GetProof(string fileName)
         {

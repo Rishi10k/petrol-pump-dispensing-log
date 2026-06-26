@@ -1,0 +1,85 @@
+<div class="listing-container">
+    <!-- Header -->
+    <div class="listing-header">
+        <h2>⛽ Dispensing Records</h2>
+        <div class="header-actions">
+            <button class="btn-primary" routerLink="/entry">+ New Entry</button>
+            <button class="btn-logout" (click)="logout()">Logout</button>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-card">
+        <h3>Filters</h3>
+        <div class="filters-grid">
+            <div class="form-group">
+                <label>Dispenser No</label>
+                <select [(ngModel)]="filterDispenserNo" (ngModelChange)="onFilterChange()" class="form-control">
+                    <option value="">All Dispensers</option>
+                    <option *ngFor="let d of dispensers.slice(1)" [value]="d">{{ d }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Payment Mode</label>
+                <select [(ngModel)]="filterPaymentMode" (ngModelChange)="onFilterChange()" class="form-control">
+                    <option value="">All Modes</option>
+                    <option *ngFor="let m of paymentModes.slice(1)" [value]="m">{{ m }}</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Start Date</label>
+                <input type="date" [(ngModel)]="filterStartDate" (ngModelChange)="onFilterChange()"
+                    class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>End Date</label>
+                <input type="date" [(ngModel)]="filterEndDate" (ngModelChange)="onFilterChange()"
+                    class="form-control" />
+            </div>
+        </div>
+        <button class="btn-clear" (click)="clearFilters()">Clear Filters</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+        <div *ngIf="isLoading" class="loading">Loading records...</div>
+
+        <div *ngIf="!isLoading && records.length === 0" class="empty-state">
+            No records found. Click New Entry to add your first record.
+        </div>
+
+        <table *ngIf="!isLoading && records.length > 0">
+            <thead>
+                <tr>
+                    <th>Dispenser No</th>
+                    <th>Quantity (L)</th>
+                    <th>Vehicle Number</th>
+                    <th>Payment Mode</th>
+                    <th>Timestamp</th>
+                    <th>Payment Proof</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of records">
+                    <td>{{ record.dispenserNo }}</td>
+                    <td>{{ record.quantity }}</td>
+                    <td>{{ record.vehicleNumber }}</td>
+                    <td>
+                        <span class="badge" [ngClass]="record.paymentMode === 'Credit Card' ? 'credit-card' : record.paymentMode.toLowerCase()">
+                            {{ record.paymentMode }}
+                        </span>
+                    </td>
+                    <td>{{ record.timestamp | date:'dd MMM yyyy, hh:mm a' }}</td>
+                    <td>
+                        <a *ngIf="record.paymentProofPath" [href]="getProofUrl(record.paymentProofPath)" target="_blank"
+                            class="proof-link">View Proof</a>
+                        <span *ngIf="!record.paymentProofPath" class="no-proof">—</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

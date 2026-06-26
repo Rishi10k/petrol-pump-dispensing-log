@@ -1,0 +1,66 @@
+<div class="entry-container">
+  <div class="entry-card">
+    <div class="entry-header">
+      <h2>⛽ New Dispensing Entry</h2>
+      <button class="btn-secondary" routerLink="/listing">← Back to Records</button>
+    </div>
+
+    <div class="form-group">
+      <label>Dispenser No *</label>
+      <select [(ngModel)]="dispenserNo" class="form-control">
+        <option value="">-- Select Dispenser --</option>
+        <option *ngFor="let d of dispensers" [value]="d">{{ d }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Quantity Filled (Liters) *</label>
+      <input
+        type="number"
+        [(ngModel)]="quantity"
+        placeholder="e.g. 10.5"
+        class="form-control"
+        step="0.1"
+        min="0"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Vehicle Number *</label>
+      <input
+        type="text"
+        [(ngModel)]="vehicleNumber"
+        placeholder="e.g. MH12AB1234"
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Payment Mode *</label>
+      <div class="radio-group">
+        <label *ngFor="let mode of paymentModes" class="radio-label">
+          <input type="radio" [(ngModel)]="paymentMode" [value]="mode" />
+          {{ mode }}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Payment Proof (JPG, PNG, PDF)</label>
+      <input
+        type="file"
+        (change)="onFileChange($event)"
+        accept=".jpg,.jpeg,.png,.pdf"
+        class="form-control"
+      />
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <button class="btn-primary" (click)="onSubmit()" [disabled]="isLoading">
+      {{ isLoading ? 'Saving...' : 'Save Record' }}
+    </button>
+  </div>
+</div>
